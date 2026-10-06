@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BlueMarket - Marketplace Premium</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#050b18;
+    --bg2:#071426;
+    --card:rgba(13,29,52,.75);
+    --blue:#168cff;
+    --blue2:#006eff;
+    --cyan:#00d9ff;
+    --red:#ff4268;
+    --green:#20d68b;
+    --text:#f4f8ff;
+    --muted:#91a4bd;
+    --border:rgba(255,255,255,.08);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(0,119,255,.16),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(0,213,255,.10),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:75px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    background:rgba(5,11,24,.78);
+    backdrop-filter:blur(20px);
+
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:var(--cyan);
+}
+
+.nav-links{
+    display:flex;
+    gap:23px;
+}
+
+.nav-links a{
+    color:#aebed2;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    border:none;
+    border-radius:10px;
+    padding:11px 18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-login{
+    background:transparent;
+    border:1px solid var(--border);
+    color:white;
+}
+
+.btn-primary{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,140,255,.25);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:550px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:80px 20px;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    background:#0077ff;
+
+    filter:blur(180px);
+
+    opacity:.15;
+
+    border-radius:50%;
+}
+
+.hero-content{
+    position:relative;
+    max-width:800px;
+}
+
+.badge{
+    display:inline-block;
+
+    padding:8px 15px;
+
+    border:1px solid rgba(0,200,255,.25);
+
+    background:rgba(0,130,255,.08);
+
+    border-radius:30px;
+
+    color:#62dfff;
+
+    font-size:13px;
+
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(42px,7vw,76px);
+
+    line-height:1.05;
+
+    font-weight:800;
+
+    letter-spacing:-3px;
+}
+
+.gradient{
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #4bcfff,
+            #0077ff
+        );
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+}
+
+.hero p{
+    color:var(--muted);
+
+    max-width:600px;
+
+    margin:25px auto;
+
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+}
+
+/* ================= SECTION ================= */
+
+.section{
+    padding:70px 6%;
+}
+
+.section-title{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.section-title h2{
+    font-size:28px;
+}
+
+.search{
+    background:rgba(255,255,255,.04);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:12px 16px;
+
+    color:white;
+
+    outline:none;
+
+    width:240px;
+}
+
+/* ================= FILTER ================= */
+
+.filters{
+    display:flex;
+
+    gap:10px;
+
+    overflow:auto;
+
+    margin-bottom:25px;
+}
+
+.filter{
+    white-space:nowrap;
+
+    background:rgba(255,255,255,.04);
+
+    color:#aebed2;
+
+    border:1px solid var(--border);
+
+    padding:9px 16px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+    background:rgba(0,136,255,.15);
+
+    color:#50c8ff;
+
+    border-color:
+        rgba(0,160,255,.3);
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(220px,1fr)
+        );
+
+    gap:20px;
+}
+
+.product{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18,38,67,.75),
+            rgba(7,19,36,.85)
+        );
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    transition:.35s;
+}
+
+.product:hover{
+    transform:translateY(-7px);
+
+    border-color:
+        rgba(0,170,255,.35);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,80,180,.18);
+}
+
+.product-image{
+    height:200px;
+
+    background:#0b1728;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.placeholder{
+    font-size:45px;
+}
+
+.product-info{
+    padding:18px;
+}
+
+.product-info h3{
+    font-size:16px;
+
+    margin-bottom:8px;
+}
+
+.price{
+    font-size:19px;
+
+    color:#42caff;
+
+    font-weight:700;
+}
+
+.seller{
+    color:#778da8;
+
+    font-size:12px;
+
+    margin-top:8px;
+}
+
+.seller-contact{
+    margin-top:12px;
+
+    padding-top:12px;
+
+    border-top:
+        1px solid var(--border);
+}
+
+.phone{
+    color:#8da2bb;
+
+    font-size:12px;
+}
+
+.qris-btn{
+    margin-top:8px;
+
+    width:100%;
+
+    padding:8px;
+
+    border-radius:8px;
+
+    border:
+        1px solid
+        rgba(0,217,255,.2);
+
+    background:
+        rgba(0,217,255,.08);
+
+    color:#51dfff;
+
+    cursor:pointer;
+}
+
+.product-bottom{
+    margin-top:15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.buy{
+    background:
+        rgba(0,140,255,.12);
+
+    color:#53c9ff;
+
+    border:
+        1px solid
+        rgba(0,140,255,.25);
+
+    padding:8px 13px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+/* ================= REKBER ================= */
+
+.rekber-section{
+    padding:20px 6% 70px;
+}
+
+.rekber-card{
+    max-width:1100px;
+
+    margin:auto;
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:30px;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(0,217,255,.15),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(10,42,76,.9),
+            rgba(5,17,33,.95)
+        );
+
+    border:
+        1px solid
+        rgba(0,180,255,.18);
+
+    box-shadow:
+        0 20px 70px
+        rgba(0,80,180,.12);
+
+    transition:.35s;
+}
+
+.rekber-card:hover{
+    transform:translateY(-5px);
+
+    border-color:
+        rgba(0,217,255,.35);
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,120,255,.18);
+}
+
+.rekber-icon{
+    width:85px;
+    height:85px;
+
+    min-width:85px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:22px;
+
+    font-size:40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,119,255,.2),
+            rgba(0,217,255,.1)
+        );
+
+    border:
+        1px solid
+        rgba(0,200,255,.2);
+
+    box-shadow:
+        0 0 35px
+        rgba(0,150,255,.15);
+}
+
+.rekber-content{
+    flex:1;
+}
+
+.rekber-badge{
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    color:#55dcff;
+
+    background:
+        rgba(0,180,255,.08);
+
+    border:
+        1px solid
+        rgba(0,180,255,.2);
+
+    margin-bottom:10px;
+}
+
+.rekber-content h2{
+    font-size:25px;
+
+    margin-bottom:10px;
+}
+
+.rekber-content p{
+    color:#8ea4bd;
+
+    font-size:14px;
+
+    line-height:1.7;
+
+    max-width:700px;
+
+    margin-bottom:20px;
+}
+
+.btn-rekber{
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0077ff,
+            #00d9ff
+        );
+
+    color:white;
+
+    box-shadow:
+        0 0 30px
+        rgba(0,150,255,.25);
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+    display:none;
+
+    padding:70px 6%;
+}
+
+.profile-card{
+    max-width:850px;
+
+    margin:auto;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,37,65,.85),
+            rgba(7,17,31,.9)
+        );
+
+    border:
+        1px solid var(--border);
+}
+
+.profile-top{
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0077ff,
+            #00d9ff
+        );
+}
+
+.profile-info h2{
+    margin-bottom:6px;
+}
+
+.profile-info p{
+    color:var(--muted);
+}
+
+.stats{
+    display:flex;
+
+    gap:50px;
+
+    margin-top:30px;
+}
+
+.stat strong{
+    display:block;
+
+    font-size:22px;
+}
+
+.stat span{
+    color:#758ba6;
+
+    font-size:12px;
+}
+
+/* ================= REPORT ================= */
+
+.report-section{
+    padding:20px 6% 70px;
+}
+
+.report-card{
+    max-width:900px;
+
+    margin:auto;
+
+    padding:35px;
+
+    border:
+        1px solid
+        rgba(255,66,104,.15);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(60,16,30,.35),
+            rgba(12,20,35,.8)
+        );
+
+    border-radius:20px;
+
+    text-align:center;
+}
+
+.report-icon{
+    font-size:40px;
+
+    margin-bottom:12px;
+}
+
+.report-card h2{
+    margin-bottom:10px;
+}
+
+.report-card p{
+    color:var(--muted);
+
+    line-height:1.7;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+}
+
+.btn-report{
+    background:
+        rgba(255,66,104,.12);
+
+    border:
+        1px solid
+        rgba(255,66,104,.3);
+
+    color:#ff6d8a;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:2000;
+
+    background:
+        rgba(0,0,0,.72);
+
+    backdrop-filter:blur(10px);
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+
+    max-width:450px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#09182b;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.5);
+
+    animation:
+        modalIn .3s ease;
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+
+        transform:
+            translateY(20px)
+            scale(.97);
+    }
+
+    to{
+        opacity:1;
+
+        transform:none;
+    }
+
+}
+
+.modal-header{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.close{
+    cursor:pointer;
+
+    color:#8095ad;
+
+    font-size:22px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+    color:#9db0c8;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+
+    width:100%;
+
+    padding:13px;
+
+    background:#071323;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:10px;
+
+    color:white;
+
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+
+    border-color:#168cff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(22,140,255,.1);
+}
+
+.form-submit{
+    width:100%;
+
+    margin-top:5px;
+}
+
+/* ================= QRIS ================= */
+
+.qris-preview{
+    display:none;
+
+    margin-top:15px;
+
+    text-align:center;
+}
+
+.qris-preview img{
+    max-width:220px;
+
+    max-height:220px;
+
+    border-radius:12px;
+
+    background:white;
+
+    padding:8px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    margin-top:20px;
+
+    padding:35px 6%;
+
+    border-top:
+        1px solid var(--border);
+
+    color:#687d96;
+
+    text-align:center;
+
+    font-size:13px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .navbar{
+        padding:0 20px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        min-height:500px;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .section-title{
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .stats{
+        gap:25px;
+    }
+
+    .rekber-card{
+        flex-direction:column;
+
+        text-align:center;
+
+        padding:28px 20px;
+    }
+
+    .rekber-content p{
+        font-size:13px;
+    }
+
+    .btn-rekber{
+        width:100%;
+
+        text-align:center;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Blue<span>Market</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#products">
+            Produk
+        </a>
+
+        <a href="#profile"
+           onclick="showProfile()">
+            Profil
+        </a>
+
+        <a href="#rekber">
+            Rekber
+        </a>
+
+        <a href="#report">
+            Laporan
+        </a>
+
+    </div>
+
+    <div class="nav-actions">
+
+        <button
+            class="btn btn-login"
+            onclick="openModal('loginModal')">
+
+            Login
+
+        </button>
+
+        <button
+            class="btn btn-primary"
+            onclick="openModal('uploadModal')">
+
+            + Jual Produk
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            Marketplace Digital Premium
+        </div>
+
+        <h1>
+
+            Jual & Beli
+
+            <span class="gradient">
+                Lebih Elegan.
+            </span>
+
+        </h1>
+
+        <p>
+
+            Temukan produk terbaik dari berbagai penjual,
+            atau mulai toko online kamu sendiri dengan
+            pengalaman marketplace modern.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="#products"
+                class="btn btn-primary"
+                style="text-decoration:none">
+
+                Jelajahi Produk
+
+            </a>
+
+            <button
+                class="btn btn-login"
+                onclick="openModal('uploadModal')">
+
+                Mulai Berjualan
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PRODUCTS ================= -->
+
+<section class="section" id="products">
+
+    <div class="section-title">
+
+        <h2>
+            Produk Terbaru
+        </h2>
+
+        <input
+            class="search"
+            id="search"
+            placeholder="Cari produk..."
+            onkeyup="searchProduct()">
+
+    </div>
+
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            onclick="filterProduct('all',this)">
+
+            Semua
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="filterProduct('elektronik',this)">
+
+            Elektronik
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="filterProduct('fashion',this)">
+
+            Fashion
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="filterProduct('gaming',this)">
+
+            Gaming
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="filterProduct('lainnya',this)">
+
+            Lainnya
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="products"
+        id="productContainer">
+
+
+        <!-- PRODUK CONTOH -->
+
+        <div
+            class="product"
+            data-category="elektronik"
+            data-name="Headphone Wireless">
+
+            <div class="product-image">
+
+                <div class="placeholder">
+                    🎧
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>
+                    Headphone Wireless
+                </h3>
+
+                <div class="price">
+                    Rp299.000
+                </div>
+
+                <div class="seller">
+                    Dijual oleh BlueStore
+                </div>
+
+                <div class="seller-contact">
+
+                    <div class="phone">
+                        📞 0812-XXXX-XXXX
+                    </div>
+
+                    <button
+                        class="qris-btn"
+                        onclick="showQrisDemo()">
+
+                        💳 Lihat QRIS
+
+                    </button>
+
+                </div>
+
+                <div class="product-bottom">
+
+                    <span>
+                        ⭐ 4.9
+                    </span>
+
+                    <button class="buy">
+                        Beli
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REKBER ================= -->
+
+<section
+    class="rekber-section"
+    id="rekber">
+
+    <div class="rekber-card">
+
+        <div class="rekber-icon">
+            🛡️
+        </div>
+
+        <div class="rekber-content">
+
+            <span class="rekber-badge">
+                TRANSAKSI LEBIH AMAN
+            </span>
+
+            <h2>
+                Jasa Rekber BlueMarket
+            </h2>
+
+            <p>
+
+                Gunakan jasa rekening bersama untuk membantu
+                mengurangi risiko penipuan saat melakukan
+                transaksi dengan penjual atau pembeli.
+
+                Pastikan selalu mengikuti prosedur resmi
+                yang diberikan admin.
+
+            </p>
+
+            <a
+                href="https://whatsapp.com/channel/0029VbC41H2Fi8xZs5JNwX3K"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-rekber">
+
+                🛡️ Gunakan Jasa Rekber
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section
+    class="profile"
+    id="profile">
+
+    <div class="profile-card">
+
+        <div class="profile-top">
+
+            <div
+                class="avatar"
+                id="avatar">
+
+                U
+
+            </div>
+
+            <div class="profile-info">
+
+                <h2 id="profileName">
+                    User Marketplace
+                </h2>
+
+                <p id="profileEmail">
+                    Belum login
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <strong id="productCount">
+                    0
+                </strong>
+
+                <span>
+                    Produk
+                </span>
+
+            </div>
+
+            <div class="stat">
+
+                <strong>
+                    0
+                </strong>
+
+                <span>
+                    Terjual
+                </span>
+
+            </div>
+
+            <div class="stat">
+
+                <strong>
+                    5.0
+                </strong>
+
+                <span>
+                    Rating
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REPORT ================= -->
+
+<section
+    class="report-section"
+    id="report">
+
+    <div class="report-card">
+
+        <div class="report-icon">
+            🚨
+        </div>
+
+        <h2>
+            Laporan Penipuan
+        </h2>
+
+        <p>
+
+            Mengalami penipuan, menemukan penjual
+            mencurigakan, atau mengalami masalah transaksi?
+
+            Laporkan kepada admin agar dapat ditindaklanjuti.
+
+        </p>
+
+        <button
+            class="btn btn-report"
+            onclick="reportAdmin()">
+
+            🚨 Laporkan ke Admin
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LOGIN MODAL ================= -->
+
+<div
+    class="modal"
+    id="loginModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Login
+            </h2>
+
+            <span
+                class="close"
+                onclick="closeModal('loginModal')">
+
+                ×
+
+            </span>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="email@example.com">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="••••••••">
+
+        </div>
+
+        <button
+            class="btn btn-primary form-submit"
+            onclick="login()">
+
+            Login
+
+        </button>
+
+        <p
+            style="
+            text-align:center;
+            margin-top:15px;
+            color:#70859f;
+            font-size:12px">
+
+            Demo frontend.
+            Login belum terhubung database.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ================= UPLOAD MODAL ================= -->
+
+<div
+    class="modal"
+    id="uploadModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Jual Produk
+            </h2>
+
+            <span
+                class="close"
+                onclick="closeModal('uploadModal')">
+
+                ×
+
+            </span>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Nama Produk
+            </label>
+
+            <input
+                id="productName"
+                placeholder="Contoh: iPhone 15">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Harga
+            </label>
+
+            <input
+                type="number"
+                id="productPrice"
+                placeholder="Contoh: 500000">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Kategori
+            </label>
+
+            <select
+                id="productCategory">
+
+                <option value="elektronik">
+                    Elektronik
+                </option>
+
+                <option value="fashion">
+                    Fashion
+                </option>
+
+                <option value="gaming">
+                    Gaming
+                </option>
+
+                <option value="lainnya">
+                    Lainnya
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- NOMOR TELEPON -->
+
+        <div class="form-group">
+
+            <label>
+                Nomor Telepon / WhatsApp
+            </label>
+
+            <input
+                type="tel"
+                id="sellerPhone"
+                placeholder="Contoh: 081234567890">
+
+        </div>
+
+
+        <!-- FOTO PRODUK -->
+
+        <div class="form-group">
+
+            <label>
+                Foto Produk
+            </label>
+
+            <input
+                type="file"
+                id="productImage"
+                accept="image/*">
+
+        </div>
+
+
+        <!-- QRIS -->
+
+        <div class="form-group">
+
+            <label>
+                QRIS Pembayaran
+            </label>
+
+            <input
+                type="file"
+                id="qrisImage"
+                accept="image/*"
+                onchange="previewQris()">
+
+            <div
+                class="qris-preview"
+                id="qrisPreview">
+
+                <p
+                    style="
+                    color:#8499b2;
+                    font-size:12px;
+                    margin-bottom:8px">
+
+                    Preview QRIS
+
+                </p>
+
+                <img
+                    id="qrisPreviewImage">
+
+            </div>
+
+        </div>
+
+
+        <!-- DESKRIPSI -->
+
+        <div class="form-group">
+
+            <label>
+                Deskripsi
+            </label>
+
+            <textarea
+                id="productDescription"
+                rows="4"
+                placeholder="Deskripsi produk...">
+            </textarea>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary form-submit"
+            onclick="uploadProduct()">
+
+            Upload Produk
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= QRIS MODAL ================= -->
+
+<div
+    class="modal"
+    id="qrisModal">
+
+    <div
+        class="modal-box"
+        style="text-align:center">
+
+        <div class="modal-header">
+
+            <h2>
+                QRIS Pembayaran
+            </h2>
+
+            <span
+                class="close"
+                onclick="closeModal('qrisModal')">
+
+                ×
+
+            </span>
+
+        </div>
+
+        <img
+            id="qrisDisplay"
+            style="
+            max-width:280px;
+            width:100%;
+            border-radius:12px;
+            background:white;
+            padding:10px;">
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    © 2026 BlueMarket.
+    Marketplace modern untuk semua.
+
+</footer>
+
+
+<script>
+
+/* ================= MODAL ================= */
+
+function openModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.add("show");
+    }
+
+}
+
+function closeModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.remove("show");
+    }
+
+}
+
+
+/* Tutup modal jika klik area luar */
+
+document.querySelectorAll(".modal")
+.forEach(modal => {
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === modal){
+
+                modal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* ================= LOGIN ================= */
+
+function login(){
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+    if(!email || !password){
+
+        alert(
+            "Email dan password wajib diisi."
+        );
+
+        return;
+
+    }
+
+    if(!email.includes("@")){
+
+        alert(
+            "Masukkan alamat email yang valid."
+        );
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        "userEmail",
+        email
+    );
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent = email;
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        email.split("@")[0];
+
+    document.getElementById(
+        "avatar"
+    ).textContent =
+        email.charAt(0).toUpperCase();
+
+    closeModal("loginModal");
+
+    alert(
+        "Login demo berhasil."
+    );
+
+}
+
+
+/* ================= QRIS PREVIEW ================= */
+
+function previewQris(){
+
+    const input =
+        document.getElementById(
+            "qrisImage"
+        );
+
+    const file =
+        input.files[0];
+
+    if(!file){
+
+        document.getElementById(
+            "qrisPreview"
+        ).style.display = "none";
+
+        return;
+    }
+
+    if(!file.type.startsWith("image/")){
+
+        alert(
+            "File QRIS harus berupa gambar."
+        );
+
+        input.value = "";
+
+        return;
+    }
+
+    const url =
+        URL.createObjectURL(file);
+
+    document.getElementById(
+        "qrisPreviewImage"
+    ).src = url;
+
+    document.getElementById(
+        "qrisPreview"
+    ).style.display = "block";
+
+}
+
+
+/* ================= UPLOAD PRODUCT ================= */
+
+function uploadProduct(){
+
+    const name =
+        document.getElementById(
+            "productName"
+        ).value.trim();
+
+    const price =
+        document.getElementById(
+            "productPrice"
+        ).value;
+
+    const category =
+        document.getElementById(
+            "productCategory"
+        ).value;
+
+    const phone =
+        document.getElementById(
+            "sellerPhone"
+        ).value.trim();
+
+    const image =
+        document.getElementById(
+            "productImage"
+        ).files[0];
+
+    const qris =
+        document.getElementById(
+            "qrisImage"
+        ).files[0];
+
+    if(!name){
+
+        alert(
+            "Nama produk wajib diisi."
+        );
+
+        return;
+    }
+
+    if(!price || Number(price) <= 0){
+
+        alert(
+            "Masukkan harga produk yang valid."
+        );
+
+        return;
+    }
+
+    if(!phone){
+
+        alert(
+            "Nomor telepon/WhatsApp wajib diisi."
+        );
+
+        return;
+    }
+
+    if(!qris){
+
+        alert(
+            "QRIS wajib disertakan."
+        );
+
+        return;
+    }
+
+
+    /* Validasi nomor */
+
+    const phoneClean =
+        phone.replace(/\D/g,"");
+
+    if(phoneClean.length < 10){
+
+        alert(
+            "Nomor telepon tidak valid."
+        );
+
+        return;
+    }
+
+
+    /* Validasi gambar */
+
+    if(image &&
+       !image.type.startsWith("image/")){
+
+        alert(
+            "Foto produk harus berupa gambar."
+        );
+
+        return;
+    }
+
+
+    const container =
+        document.getElementById(
+            "productContainer"
+        );
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "product";
+
+    card.dataset.category =
+        category;
+
+    card.dataset.name =
+        name;
+
+
+    /* Foto produk */
+
+    let imageHTML =
+        '<div class="placeholder">📦</div>';
+
+    if(image){
+
+        const imageURL =
+            URL.createObjectURL(image);
+
+        imageHTML =
+            `<img src="${imageURL}"
+                  alt="${escapeHTML(name)}">`;
+
+    }
+
+
+    /* QRIS */
+
+    const qrisURL =
+        URL.createObjectURL(qris);
+
+
+    card.innerHTML = `
+
+        <div class="product-image">
+
+            ${imageHTML}
+
+        </div>
+
+        <div class="product-info">
+
+            <h3>
+                ${escapeHTML(name)}
+            </h3>
+
+            <div class="price">
+
+                Rp${Number(price)
+                .toLocaleString("id-ID")}
+
+            </div>
+
+            <div class="seller">
+
+                Dijual oleh Anda
+
+            </div>
+
+            <div class="seller-contact">
+
+                <div class="phone">
+
+                    📞 ${escapeHTML(phone)}
+
+                </div>
+
+                <button
+                    class="qris-btn"
+                    data-qris="${qrisURL}">
+
+                    💳 Lihat QRIS
+
+                </button>
+
+            </div>
+
+            <div class="product-bottom">
+
+                <span>
+                    ⭐ Baru
+                </span>
+
+                <button
+                    class="buy"
+                    data-phone="${escapeHTML(phone)}">
+
+                    Beli
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+
+    /* QRIS button */
+
+    const qrisButton =
+        card.querySelector(
+            ".qris-btn"
+        );
+
+    qrisButton.addEventListener(
+        "click",
+        function(){
+
+            openQris(
+                this.dataset.qris
+            );
+
+        }
+    );
+
+
+    /* Buy button */
+
+    const buyButton =
+        card.querySelector(
+            ".buy"
+        );
+
+    buyButton.addEventListener(
+        "click",
+        function(){
+
+            contactSeller(
+                this.dataset.phone
+            );
+
+        }
+    );
+
+
+    container.prepend(card);
+
+    closeModal("uploadModal");
+
+
+    /* Reset form */
+
+    document.getElementById(
+        "productName"
+    ).value = "";
+
+    document.getElementById(
+        "productPrice"
+    ).value = "";
+
+    document.getElementById(
+        "sellerPhone"
+    ).value = "";
+
+    document.getElementById(
+        "productImage"
+    ).value = "";
+
+    document.getElementById(
+        "qrisImage"
+    ).value = "";
+
+    document.getElementById(
+        "productDescription"
+    ).value = "";
+
+    document.getElementById(
+        "qrisPreview"
+    ).style.display = "none";
+
+
+    updateProductCount();
+
+    alert(
+        "Produk berhasil ditambahkan!"
+    );
+
+}
+
+
+/* ================= QRIS ================= */
+
+function openQris(url){
+
+    document.getElementById(
+        "qrisDisplay"
+    ).src = url;
+
+    openModal(
+        "qrisModal"
+    );
+
+}
+
+function showQrisDemo(){
+
+    alert(
+        "QRIS penjual akan tampil setelah penjual mengunggah QRIS."
+    );
+
+}
+
+
+/* ================= CONTACT SELLER ================= */
+
+function contactSeller(phone){
+
+    let number =
+        phone.replace(/\D/g,"");
+
+    if(number.startsWith("0")){
+
+        number =
+            "62" +
+            number.substring(1);
+
+    }
+
+    if(!number){
+
+        alert(
+            "Nomor penjual tidak tersedia."
+        );
+
+        return;
+    }
+
+    const message =
+        "Halo, saya tertarik dengan produk yang kamu jual di BlueMarket.";
+
+    window.open(
+        "https://wa.me/" +
+        number +
+        "?text=" +
+        encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+/* ================= REPORT ADMIN ================= */
+
+function reportAdmin(){
+
+    const admin =
+        "62895637224519";
+
+    const message =
+        `Halo Admin BlueMarket,
+
+Saya ingin melaporkan dugaan penipuan di BlueMarket.
+
+Nama/akun penjual:
+Nama produk:
+Nomor penjual:
+Jumlah kerugian:
+Kronologi:
+
+Saya akan mengirimkan bukti transaksi jika diperlukan.`;
+
+    window.open(
+        "https://wa.me/" +
+        admin +
+        "?text=" +
+        encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+/* ================= SEARCH ================= */
+
+function searchProduct(){
+
+    const keyword =
+        document.getElementById(
+            "search"
+        ).value.toLowerCase();
+
+    document
+        .querySelectorAll(".product")
+        .forEach(product => {
+
+            const name =
+                product.dataset.name
+                .toLowerCase();
+
+            product.style.display =
+                name.includes(keyword)
+                ? ""
+                : "none";
+
+        });
+
+}
+
+
+/* ================= FILTER ================= */
+
+function filterProduct(
+    category,
+    button
+){
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(btn => {
+
+            btn.classList.remove(
+                "active"
+            );
+
+        });
+
+    button.classList.add(
+        "active"
+    );
+
+    document
+        .querySelectorAll(".product")
+        .forEach(product => {
+
+            if(
+                category === "all" ||
+                product.dataset.category
+                    === category
+            ){
+
+                product.style.display =
+                    "";
+
+            }else{
+
+                product.style.display =
+                    "none";
+
+            }
+
+        });
+
+}
+
+
+/* ================= PROFILE ================= */
+
+function showProfile(){
+
+    const profile =
+        document.getElementById(
+            "profile"
+        );
+
+    profile.style.display =
+        "block";
+
+    profile.scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ================= PRODUCT COUNT ================= */
+
+function updateProductCount(){
+
+    const count =
+        document.querySelectorAll(
+            ".product"
+        ).length;
+
+    document.getElementById(
+        "productCount"
+    ).textContent =
+        count;
+
+}
+
+
+/* ================= SECURITY ================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* ================= LOAD USER ================= */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        const email =
+            localStorage.getItem(
+                "userEmail"
+            );
+
+        if(email){
+
+            document.getElementById(
+                "profileEmail"
+            ).textContent =
+                email;
+
+            document.getElementById(
+                "profileName"
+            ).textContent =
+                email.split("@")[0];
+
+            document.getElementById(
+                "avatar"
+            ).textContent =
+                email.charAt(0)
+                    .toUpperCase();
+
+        }
+
+        updateProductCount();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
